@@ -1,0 +1,103 @@
+// SPDX-License-Identifier: GPL-2.0
+/ {
+	pinctrl@70038000 {
+	    compatible = "bst,a1000-pinctrl";
+	    /* pinctrl group 0 register */
+	    reggrp0 = <0x0 0x70038000 0x0 0x2000>;
+	    /* pinctrl group 1 register */
+	    reggrp1 = <0x0 0x33001000 0x0 0x1000>;
+		u-boot,dm-spl;
+
+		pinctrl_serial0: pinctrl_serial0 {
+			actions,pins = <0 13 4 0>;
+			group = <0>;
+		};
+
+		pinctrl_serial1: pinctrl_serial1 {
+			actions,pins = <0 17 4 0>;
+			group = <0>;
+		};
+
+		pinctrl_serial2: pinctrl_serial2 {
+			actions,pins = <0 21 4 0>;
+			group = <0>;
+		};
+
+		pinctrl_serial3: pinctrl_serial3 {
+			actions,pins = <0 25 4 0>;
+			group = <0>;
+		};
+
+		pinctrl_i2c0: pinctrl_i2c0 {
+			actions,pins = <0 29 2 0>;
+			group = <0>;
+			u-boot,dm-spl;
+		};
+
+		pinctrl_i2c1: pinctrl_i2c1 {
+			actions,pins = <0 31 1 0
+						   4 0 1 0>;
+			group = <0>;
+			u-boot,dm-spl;
+		};
+
+		pinctrl_i2c2: pinctrl_i2c2 {
+			actions,pins = <4 1 2 0>;
+			group = <0>;
+			u-boot,dm-spl;
+		};
+
+		pinctrl_i2c3: pinctrl_i2c3 {
+			actions,pins = <4 3 2 0>;
+			group = <0>;
+			u-boot,dm-spl;
+		};
+
+		pinctrl_i2c4: pinctrl_i2c4 {
+			actions,pins = <4 5 2 0>;
+			group = <0>;
+			u-boot,dm-spl;
+		};
+
+		pinctrl_i2c5: pinctrl_i2c5 {
+			actions,pins = <4 7 2 0>;
+			group = <0>;
+			u-boot,dm-spl;
+		};
+
+		pinctrl_qspi0: pinctrl_qspi0 {
+			actions,pins = <4 29 1 1
+							0x204 29 1 0>;
+			group = <0>;
+			u-boot,dm-spl;
+		};
+
+		pinctrl_qspi1: pinctrl_qspi1 {
+			actions,pins = <8 8 1 1
+							0x208 8 1 0>;
+			group = <0>;
+			u-boot,dm-spl;
+		};
+
+		pinctrl_eth0: pinctrl_eth0 {
+			actions,pins = <0 5 1 0>;
+			group = <0>;
+		};
+
+		/*
+		 * EVB_V2: GPIO_25 to control USB3 interface power supply
+		 */
+		pinctrl_gpio25: pinctrl_gpio25 {
+			actions,pins = <0 1 1 0>;
+			group = <0>;
+		};
+
+		/*
+		 * FAD: GPIO_11 to control USB3 interface power supply
+		 */
+		pinctrl_gpio11: pinctrl_gpio11 {
+			actions,pins = <4 21 1 1>;
+			group = <1>;
+		};
+	};
+};

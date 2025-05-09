@@ -1,0 +1,68 @@
+// SPDX-License-Identifier: GPL-2.0
+/dts-v1/;
+#include "bsta1000b.dtsi"
+
+/ {
+	model = "BST A1000B EVB";
+
+	chosen {
+		stdout-path = &uart0;
+	};
+
+	clkconfig {
+		clk_a55cpu = <1400>; /* 1.4GMhz/25MHz */
+		clknoc_dspcore = <800>; /* 800MHz/25MHz */
+		clknoc_netcore = <800>; /* 800MHz/25MHz */
+		clknoc_cvcore = <800>; /* 800MHz/25MHz */
+		clk_sdemmc = <200>; /* 200MHz/25MHz */
+		clk_coreip = <800>; /* 800MHz/25MHz */
+
+		clk_lsp = "disable";
+		clk_gmac = "enable";
+		clk_axiusb3 = "enable";
+		clk_gdma = "enable";
+	};
+};
+
+&uart0 {
+	status = "okay";
+};
+
+&gpio0 {
+	status = "okay";
+};
+
+&gpio1 {
+	status = "okay";
+};
+
+&qspi0 {
+	status = "okay";
+};
+
+&dwusb20 {
+	status = "okay";
+};
+
+&dwusb30 {
+	status = "okay";
+};
+
+&dwmmc0 {
+	status = "okay";
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_emmc0>;
+};
+
+&dwmmc1 {
+	status = "okay";
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_emmc1>;
+};
+&eth0 {
+	status = "okay";
+	phy-addr = < 1 >; //fada
+	phy-reset-gpios = <&port0 8 1>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_eth0>;
+};

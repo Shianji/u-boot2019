@@ -1,0 +1,25 @@
+if TARGET_BST_A1000
+
+config SYS_BOARD
+	default "a1000"
+
+config SYS_VENDOR
+	default "bst"
+
+config SYS_SOC
+	default "a1000"
+
+config SYS_CONFIG_NAME
+	default "bsta1000"
+
+source "board/bst/common/Kconfig"
+
+endif
+
+config BST_BURN_TOOLS
+	bool "A1000 BURN Tools"
+	default n
+	select BSTDDR4_USEDTS
+	help
+		This option is used by the burning tool for
+		the first time to burn the u-boot-full.img.

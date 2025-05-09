@@ -1,0 +1,153 @@
+/* SPDX-License-Identifier: GPL-2.0+ */
+/*
+ * Configuration for BlackSesame A1000 EVB.
+ */
+
+#ifndef __BST_A1000_H_
+#define __BST_A1000_H_
+
+#include <linux/sizes.h>
+
+#define CONFIG_GICV2							1
+
+#define CPU_RELEASE_ADDR						0
+
+#ifdef CONFIG_SPL_BUILD
+#define CONFIG_SYS_NS16550_REG_SIZE				-1
+
+/* Debug uart */
+#define BST_UART0_BASE	(0x20008000)
+#endif
+
+//#define SMP_BOOT_FREQ_25M
+
+#ifdef SMP_BOOT_FREQ_25M
+/* boot cpu clk 25M */
+#define COUNTER_FREQUENCY		ULL(25000000/4) /* 25MHz */
+#else
+#define COUNTER_FREQUENCY		ULL(1400000000/4) /* 1.4GHz */
+#endif
+
+#define CONFIG_ENV_OFFSET				0x800000
+#define CONFIG_ENV_ADDR					CONFIG_ENV_OFFSET
+#define CONFIG_ENV_SIZE					SZ_64K
+#define CONFIG_ENV_SECT_SIZE			SZ_64K
+#define CONFIG_ENV_OVERWRITE			1
+
+#define CONFIG_HOSTNAME				"BST-A1000"
+
+/* Physical Memory Map */
+#define PHYS_SYSMEM_FLASH_START (0x0)
+#define PHYS_SYSMEM_FLASH_SIZE (SZ_64M)
+
+#define PHYS_SYSMEM_SRAM_START (0x18040000)
+#ifndef CONFIG_BSTDDR4_USEDTS
+#define PHYS_SYSMEM_SRAM_SIZE (SZ_1M - SZ_256K - SZ_4K) /* 768KB */
+#else
+#define PHYS_SYSMEM_SRAM_SIZE (SZ_256K - SZ_4K) /* 256KB */
+#endif
+
+#define PHYS_SDRAM_1					(0x80000000)
+#define PHYS_SDRAM_1_SIZE				(SZ_2G - SZ_256M)
+#define PHYS_SDRAM_2					(0x180000000)
+#define PHYS_SDRAM_2_SIZE				(SZ_2G - SZ_256M)
+
+#define	PHYS_LOWMEM_PERIPHERALS_START	(0x20000000)
+#define	PHYS_LOWMEM_PERIPHERALS_SIZE	\
+		(PHYS_SDRAM_1 - PHYS_LOWMEM_PERIPHERALS_START)
+
+#define CONFIG_SYS_SDRAM_BASE	    PHYS_SDRAM_1
+
+#define CONFIG_SYS_INIT_SP_ADDR		\
+		(PHYS_SYSMEM_SRAM_START + PHYS_SYSMEM_SRAM_SIZE)
+#define SYS_SPL_OFFSET				(CONFIG_SYS_INIT_SP_ADDR)
+
+#define DEBUG_SYS_SPL_MAGIC			(0xaa55)
+#define DEBUG_SYS_INIT_SP_ADDR		(0x18000000 + SZ_1M - SZ_4K)
+#define DEBUG_SPL_OFFSET			(DEBUG_SYS_INIT_SP_ADDR)
+#define DEBUG_SPL_BOOT_OFFSET		(DEBUG_SYS_INIT_SP_ADDR + SZ_1K)
+
+#define CONFIG_SYS_LOAD_ADDR		0x90000000
+#define CONFIG_SYS_MALLOC_LEN		SZ_256M
+
+#define UART_SRC_CLK				 (25000000UL)
+
+/*
+ * u-boot-tools.img Used.
+ */
+#define SYS_DDR_FDT_START			(PHYS_SDRAM_1)
+#define SYS_DDR_U_BOOT_START		(PHYS_SDRAM_1 + SZ_16M)
+
+#define BST_ATF_IMAGE_ENTRY_BASE	\
+		(0x8fe00000 - sizeof(struct image_header))
+
+/*
+ * u-boot load address.
+ */
+#define CONFIG_SYS_UBOOT_BASE		\
+		(SYS_DDR_U_BOOT_START - sizeof(struct image_header))
+/* Same as SYS_DDR_U_BOOT_START */
+#define CONFIG_SYS_UBOOT_START		0x81000000
+
+#define CONFIG_SPL_TEXT_BASE	    0
+#define CONFIG_SPL_MAX_SIZE		    SZ_1M
+#define CONFIG_SPL_BSS_START_ADDR	(SYS_DDR_U_BOOT_START + SZ_16M)
+#define CONFIG_SPL_BSS_MAX_SIZE		SZ_16M
+
+#define SPL_RELOC_FDT_START_ADDR	\
+		(CONFIG_SPL_BSS_START_ADDR + CONFIG_SPL_BSS_MAX_SIZE * 2)
+#define SPL_RELOC_FDT_MAX_SIZE		(SZ_2M)
+
+#ifndef CONFIG_BST_BURN_TOOLS
+#define CONFIG_SYS_SPL_MALLOC_START		\
+		(SPL_RELOC_FDT_START_ADDR + SPL_RELOC_FDT_MAX_SIZE * 2)
+#define CONFIG_SYS_SPL_MALLOC_SIZE		(SZ_128M)
+#endif
+
+/* console configuration */
+#define CONFIG_SYS_CBSIZE			SZ_4K
+#define CONFIG_SYS_MAXARGS			128
+#define CONFIG_SYS_BARGSIZE			CONFIG_SYS_CBSIZE
+
+#define CONFIG_SYS_BOOTM_LEN		SZ_256M
+
+#define GICD_BASE		0x32001000	/* Generic Int Cntrlr Distrib */
+#define GICC_BASE		0x32002000	/* Generic Int Cntrlr CPU I/F */
+
+#define MMC0_BASE		0x30400000
+#define MMC1_BASE		0x30500000
+
+/* Watchdog support */
+//#define CONFIG_HW_WATCHDOG
+#define WDT0_BASE_ADDR (0x2001A000)
+#define WDT1_BASE_ADDR (0x2001B000)
+#define WDT2_BASE_ADDR (0x2001C000)
+#define WDT3_BASE_ADDR (0x2001D000)
+#ifdef CONFIG_HW_WATCHDOG
+#define CONFIG_DESIGNWARE_WATCHDOG
+#define CONFIG_DW_WDT_BASE					WDT1_BASE_ADDR
+/* 100MHz */
+#define CONFIG_DW_WDT_CLOCK_KHZ				ULL(100000000)
+#define CONFIG_WATCHDOG_TIMEOUT_MSECS		8000
+#endif
+
+#define CONFIG_SYS_MEMTEST_START	(CONFIG_SYS_SDRAM_BASE + 0x400)
+#define CONFIG_SYS_MEMTEST_END		((PHYS_SDRAM_1_SIZE - 3) << 20)
+
+#define CONFIG_BOOTCOUNT_LIMIT
+#define CONFIG_BOOTCOUNT_ENV
+
+#undef CONFIG_BOOTCOMMAND
+#define CONFIG_BOOTCOMMAND "run netdownloadfdt ;run netdownloadkernel;run runbootm"
+#define CONFIG_BOARD_EARLY_INIT_F 1
+#define CONFIG_BOARD_EARLY_INIT_R 1
+//#define CONFIG_MISC_INIT_R 1
+#define CONFIG_EXTRA_ENV_SETTINGS \
+	"bootdelay=0\0" \
+	"netdownloadfdt=tftp 0x81000000 bsta1000.dtb\0" \
+	"netdownloadkernel=tftp 0x81ffffc0 uImage\0" \
+	"runbootm=bootm 0x81ffffc0 - 0x81000000\0"
+
+#define SPI_SPEC_BOARD_GET_FLASH
+
+#endif /* __BST_A1000_EVB_H */

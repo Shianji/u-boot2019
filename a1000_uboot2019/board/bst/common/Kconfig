@@ -1,0 +1,38 @@
+# SPDX-License-Identifier: GPL-2.0+
+
+menuconfig USB_CFG_BLOCK
+	bool "Enable usb config block support"
+	help
+		The usb config block stored production data on the on - module
+		flash device(NAND, NOR or eMMC).The area is normally preserved by
+		software and contains the serial number(out of which the MAC
+		address is generated)and the exact module type.
+
+if USB_CFG_BLOCK
+	config USB_CFG_BLOCK_IS_IN_MMC
+		bool "usb config in mmc"
+		default n
+	config USB_CFG_BLOCK_IS_IN_NAND
+		bool "usb config in nand flash"
+		default n
+	config USB_CFG_BLOCK_IS_IN_NOR
+		bool "usb config in nor flash"
+		default n
+	config USB_CFG_BLOCK_IS_IN_QSPI
+		bool "usb config in qspi flash"
+		default n
+	config USB_CFG_BLOCK_DEV
+		int "usb config block eMMC device ID"
+		depends on USB_CFG_BLOCK_IS_IN_MMC
+	config USB_CFG_BLOCK_PART
+		int "usb config block eMMC partition ID"
+		depends on USB_CFG_BLOCK_IS_IN_MMC
+	config USB_CFG_BLOCK_OFFSET
+		hex "usb config block offset"
+		default 0xcd0000
+	help
+		Specify the byte offset of the usb config block within the flash
+		device the config block is stored on.
+
+endif
+

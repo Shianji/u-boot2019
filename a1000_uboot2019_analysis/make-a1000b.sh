@@ -1,0 +1,32 @@
+#!/bin/sh
+
+BINOUT=bin_a1000b
+
+rm -rf $BINOUT
+mkdir "$BINOUT" > /dev/null;
+
+
+CROSS_COMPILETOOL_GNU=aarch64-bst-linux-
+CROSS_COMPILETOOL_BST=aarch64-bst-linux-
+
+AR_GUN=${CROSS_COMPILETOOL_GNU}ar
+AR_BST=${CROSS_COMPILETOOL_BST}ar
+if command -v ${AR_GUN} 1>/dev/null 2>&1; then
+    CROSS_COMPILETOOL=aarch64-bst-linux-
+fi
+if command -v ${AR_BST} 1>/dev/null 2>&1; then
+    CROSS_COMPILETOOL=aarch64-bst-linux-
+fi
+
+if [ -z "$CROSS_COMPILETOOL" ]; then
+    echo 'Failed to find compile tools.'
+    exit 1
+fi
+
+rm -f build_a1000b/arch/arm/dts/*.dtb build_a1000b/arch/arm/dts/.*.cmd \
+				build_a1000b/arch/arm/dts/.*.tmp
+
+make O=build_a1000b CROSS_COMPILE=${CROSS_COMPILETOOL} bsta1000b_defconfig
+make O=build_a1000b CROSS_COMPILE=${CROSS_COMPILETOOL} BUILD_ATF_OBJ=bl31 BUILD_ATF_LOGLEVEL=20 -j$(nproc)
+
+cp build_a1000b/u-boot.bin bin_a1000b/uboot-a1000b.bin

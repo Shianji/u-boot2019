@@ -1,0 +1,67 @@
+// SPDX-License-Identifier: GPL-2.0
+/dts-v1/;
+#include "bsta1000.dtsi"
+
+/ {
+	model = "BST A1000 BASEBOARD";
+
+	chosen {
+		stdout-path = &uart0;
+	};
+
+	clkconfig {
+		clk_a55cpu = <1400>; /* 1.4GMhz/25MHz */
+		clknoc_dspcore = <800>; /* 800MHz/25MHz */
+		clknoc_netcore = <800>; /* 800MHz/25MHz */
+		clknoc_cvcore = <800>; /* 800MHz/25MHz */
+		clk_sdemmc = <200>; /* 200MHz/25MHz */
+		clk_coreip = <800>; /* 800MHz/25MHz */
+
+		clk_lsp = "disable";
+		clk_gmac = "enable";
+		clk_axiusb3 = "enable";
+		clk_gdma = "enable";
+	};
+};
+
+&uart0 {
+	status = "okay";
+};
+
+&gpio0 {
+	status = "okay";
+};
+
+&qspi0 {
+	status = "okay";
+};
+
+&dwusb20 {
+	status = "okay";
+};
+
+&dwusb30 {
+	status = "okay";
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_gpio11>;
+	powerctl-gpios = <&port1 11 0>;
+};
+
+&i2c4 {
+	status = "okay";
+	#address-cells = <1>;
+	#size-cells = <0>;
+	eeprom@56 {
+		compatible = "atmel,24c02";
+		reg = <0x56>;
+		pagesize = <16>;
+	};
+};
+
+&dwmmc0 {
+	status = "okay";
+};
+
+&dwmmc1 {
+	status = "okay";
+};

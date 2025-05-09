@@ -1,0 +1,26 @@
+// SPDX-License-Identifier: GPL-2.0
+#include <dt-bindings/reset/bsta1000b-reset.h>
+
+/ {
+	hsp0_rst: reset-controller@33002180 {
+			compatible = "bst,a1000-reset";
+			reg = <0x0 0x33002180 0x0 0x4>;
+			#reset-cells = <1>;
+			u-boot,dm-spl;
+		};
+
+	qspi_rst: reset-controller@70035008 {
+			compatible = "bst,a1000-reset";
+			reg = <0x0 0x70035008 0x0 0x4>;
+			#reset-cells = <1>;
+			u-boot,dm-spl;
+		};
+
+	lsp0_rst: reset-controller@20020000 {
+			compatible = "bst,a1000-reset";
+			reg = <0x0 0x20020000 0x0 0x4>;
+			#reset-cells = <1>;
+			u-boot,dm-spl;
+		};
+
+};

@@ -1,0 +1,99 @@
+// SPDX-License-Identifier: GPL-2.0
+/ {
+	pinctrl@70038000 {
+		compatible = "bst,a1000-pinctrl";
+	    /* pinctrl group 0 register */
+		reggrp0 = <0x0 0x70038000 0x0 0x2000>;
+	    /* pinctrl group 1 register */
+		reggrp1 = <0x0 0x33001000 0x0 0x1000>;
+		u-boot,dm-spl;
+
+		pinctrl_serial0: pinctrl_serial0 {
+			actions,pins = <0 13 4 0
+					0 19 2 0>;
+			group = <0>;
+		};
+
+		pinctrl_serial1: pinctrl_serial1 {
+			actions,pins = <0xc 14 4 0
+					0xc 23 2 0
+					0xc 27 2 0>;
+			group = <0>;
+		};
+
+		pinctrl_i2c0: pinctrl_i2c0 {
+			actions,pins = <0x10 24 4 0>;
+			group = <0>;
+			u-boot,dm-spl;
+		};
+
+		pinctrl_i2c1: pinctrl_i2c1 {
+			actions,pins = <0x10 28 4 0>;
+			group = <0>;
+			u-boot,dm-spl;
+		};
+
+		pinctrl_i2c2: pinctrl_i2c2 {
+			actions,pins = <0xc 28 4 0>;
+			group = <0>;
+			u-boot,dm-spl;
+		};
+
+		pinctrl_i2c3: pinctrl_i2c3 {
+			actions,pins = <4 3 2 0>;
+			group = <0>;
+			u-boot,dm-spl;
+		};
+
+		pinctrl_i2c4: pinctrl_i2c4 {
+			actions,pins = <4 5 2 0>;
+			group = <0>;
+			u-boot,dm-spl;
+		};
+
+		pinctrl_i2c5: pinctrl_i2c5 {
+			actions,pins = <4 7 2 0>;
+			group = <0>;
+			u-boot,dm-spl;
+		};
+
+		pinctrl_qspi0: pinctrl_qspi0 {
+			actions,pins = <4 29 1 1
+					0x204 29 1 0>;
+			group = <0>;
+			u-boot,dm-spl;
+		};
+
+		pinctrl_qspi1: pinctrl_qspi1 {
+			actions,pins = <8 8 1 1
+					0x208 8 1 0>;
+			group = <0>;
+			u-boot,dm-spl;
+		};
+
+		pinctrl_emmc0: pinctrl_emmc0 {
+			actions,pins = <0 0 13 0>;
+			group = <1>;
+		};
+
+		pinctrl_emmc1: pinctrl_emmc1 {
+			actions,pins = <0 15 13 0>;
+			group = <1>;
+		};
+
+		pinctrl_eth0: pinctrl_eth0 {
+			actions,pins = <0 30 2 0
+				       0x4 0 23 0>;
+			group = <1>;
+		};
+
+		pinctrl_eth1: pinctrl_eth1 {
+			actions,pins = <0x4 23 9 0
+				       0x8 0 11 0>;
+			group = <1>;
+		};
+
+/* A1000B EVB: GPIO_244 to control USB3 interface power supply, */
+/* GPIO 244 enable gpio function */
+	};
+};

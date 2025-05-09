@@ -1,0 +1,6 @@
+BST_A1000 EVB BOARD
+M:	yuchao.wang <jian.wang@bst.ai>
+S:	Maintained
+F:	board/bst/a1000/
+F:	include/configs/bsta1000.h
+F:	configs/bsta1000_defconfig
